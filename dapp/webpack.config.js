@@ -9,7 +9,6 @@ const webpack = require('webpack')
 const config = require('config')
 
 const loaders = require('./tools/loaders')
-const paths = require('./tools/paths')
 
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -56,8 +55,15 @@ module.exports = {
     })
   ],
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'all'
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
     }
   },
   performance: {
@@ -66,13 +72,21 @@ module.exports = {
   module: {
     rules: [
       {
+        enforce: 'pre',
+        test: /\.(js|jsx)$/,
+        loader: 'standard-loader',
+        exclude: /(node_modules)/,
+        options: {
+          parser: 'babel-eslint'
+        }
+      },
+      {
         test: /\.(js|jsx)$/,
         use: ['babel-loader'],
         exclude: /node_modules/
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        include: [path.resolve(paths.PATH_SRC, 'scss', 'main.scss')],
         use: [loaders.miniCssExtractPluginLoader({ hmr: devMode }), loaders.cssLoader(), loaders.postcssLoader(), loaders.sassLoader()]
       },
       {
