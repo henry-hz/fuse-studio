@@ -90,12 +90,8 @@ module.exports = {
         use: [loaders.miniCssExtractPluginLoader({ hmr: devMode }), loaders.cssLoader(), loaders.postcssLoader(), loaders.sassLoader()]
       },
       {
-        test: /\.(woff|woff2|ttf|eot|svg|webp|ico)$/,
-        use: [loaders.fileLoader(), loaders.imageWebpackLoader()]
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [loaders.urlLoader()]
+        test: /\.(woff|woff2|ttf|eot|svg|webp|ico|png|jpe?g|gif)$/,
+        use: [loaders.fileLoader()]
       },
       {
         test: /\.html$/,

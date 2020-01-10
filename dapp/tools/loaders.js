@@ -44,9 +44,7 @@ function cssLoaderLocals (options = {}) {
 function fileLoader (options = {}) {
   return {
     loader: 'file-loader',
-    options: merge({
-      name: '[path][name].[ext]'
-    }, options)
+    options: merge({}, options)
   }
 }
 
