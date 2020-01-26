@@ -30,17 +30,6 @@ function cssLoader (options = {}) {
   }
 }
 
-function cssLoaderLocals (options = {}) {
-  return {
-    loader: 'css-loader/locals',
-    options: merge({
-      importLoaders: 3,
-      localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
-      sourceMap: true
-    }, options)
-  }
-}
-
 function fileLoader (options = {}) {
   return {
     loader: 'file-loader',
@@ -64,40 +53,6 @@ function htmlLoader (options) {
   }
 }
 
-function urlLoader (options) {
-  return {
-    loader: 'url-loader',
-    options: merge({
-      limit: 25000
-    }, options)
-  }
-}
-
-function imageWebpackLoader (options = {}) {
-  return {
-    loader: 'image-webpack-loader',
-    options: {
-      mozjpeg: {
-        progressive: true,
-        quality: 65
-      },
-      optipng: {
-        enabled: false
-      },
-      pngquant: {
-        quality: [0.65, 0.90],
-        speed: 4
-      },
-      gifsicle: {
-        interlaced: false
-      },
-      webp: {
-        quality: 75
-      }
-    }
-  }
-}
-
 function miniCssExtractPluginLoader (options = {}) {
   return {
     loader: MiniCssExtractPlugin.loader,
@@ -111,11 +66,8 @@ module.exports = {
   sassLoader,
   postcssLoader,
   cssLoader,
-  cssLoaderLocals,
   fileLoader,
   styleLoader,
   htmlLoader,
-  imageWebpackLoader,
-  urlLoader,
   miniCssExtractPluginLoader
 }

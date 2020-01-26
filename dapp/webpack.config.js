@@ -45,13 +45,13 @@ module.exports = {
     new ProgressBarPlugin(),
     new FriendlyErrorsWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: process.env.NODE_ENV === 'development' ? './src/index.dev.html' : './src/index.html',
+      template: devMode ? './src/index.dev.html' : './src/index.html',
       filename: './index.html'
     }),
     new webpack.DefinePlugin({ CONFIG: JSON.stringify(config) }),
     new MiniCssExtractPlugin({
-      filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
+      filename: !devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: !devMode ? '[id].css' : '[id].[hash].css'
     })
   ],
   optimization: {
@@ -87,7 +87,14 @@ module.exports = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [loaders.miniCssExtractPluginLoader({ hmr: devMode }), loaders.cssLoader(), loaders.postcssLoader(), loaders.sassLoader()]
+        use: [
+          devMode
+            ? loaders.styleLoader()
+            : loaders.miniCssExtractPluginLoader({ hmr: devMode }),
+          loaders.cssLoader(),
+          loaders.postcssLoader(),
+          loaders.sassLoader()
+        ]
       },
       {
         test: /\.(woff|woff2|ttf|eot|svg|webp|ico|png|jpe?g|gif)$/,
